@@ -1,7 +1,12 @@
 import { createGlobalStyle, ThemeProvider } from "styled-components";
+import Head from "next/head";
 
 const GlobalStyle = createGlobalStyle`
-  body {
+
+
+
+  * {
+		font-family: 'Comfortaa', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -22,6 +27,15 @@ const theme = {
 export default function App({ Component, pageProps }) {
 	return (
 		<>
+			<Head>
+				<title>My page title</title>
+				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+
+				<link
+					href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;500;700&display=swap"
+					rel="stylesheet"
+				></link>
+			</Head>
 			<GlobalStyle />
 			<ThemeProvider theme={theme}>
 				<Component {...pageProps} />
