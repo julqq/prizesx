@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { ArrowDown } from "./arrow";
+import { signIn, signOut, useSession } from "next-auth/client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 const Container = styled.div`
 	display: flex;
@@ -54,16 +57,33 @@ const Logo = styled.img`
 `;
 
 export default function Header() {
+	const [session, loading] = useSession();
+	const [userImage, setUserImage] = useState("/img/user-circle.svg");
+	const router = useRouter();
+	useEffect(() => {
+		const redirect = session ? router.push("/app") : null;
+	}, [session]);
+
 	return (
 		<>
 			<Container>
 				<Menu>
 					<MenuItens>
 						<li>
-							<User src="/img/user-circle.svg" />
+							<User src={userImage} />
 						</li>
 						<li>
-							<SingUp>Entrar</SingUp>
+							{!session && (
+								<>
+									<SingUp onClick={() => signIn("auth0")}>Entrar</SingUp>
+								</>
+							)}
+							{session && (
+								<>
+									{session.user.email}
+									<SingUp onClick={() => signOut()}>Sair</SingUp>
+								</>
+							)}
 						</li>
 					</MenuItens>
 				</Menu>

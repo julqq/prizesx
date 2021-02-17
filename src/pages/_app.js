@@ -1,15 +1,14 @@
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Head from "next/head";
+import { Provider } from "next-auth/client";
 
 const GlobalStyle = createGlobalStyle`
-
-
-
-  * {
+  body {
 		font-family: 'Comfortaa', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+		background-color: #E2E0DE;
   }
 `;
 
@@ -28,7 +27,7 @@ export default function App({ Component, pageProps }) {
 	return (
 		<>
 			<Head>
-				<title>My page title</title>
+				<title>PrizesX</title>
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
 				<link
@@ -38,7 +37,9 @@ export default function App({ Component, pageProps }) {
 			</Head>
 			<GlobalStyle />
 			<ThemeProvider theme={theme}>
-				<Component {...pageProps} />
+				<Provider session={pageProps.session}>
+					<Component {...pageProps} />
+				</Provider>
 			</ThemeProvider>
 		</>
 	);
